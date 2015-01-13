@@ -13,5 +13,5 @@ $("#txtName").keydown(function(){
     // Execute your save function here.
   }, 500);
 });
+//this will make sure that your script executes 500ms after the typing is complete.
 ```
-this will make sure that your script executes 500ms after the typing is complete.
