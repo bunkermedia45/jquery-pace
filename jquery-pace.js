@@ -24,50 +24,52 @@ By Leo Barsukov
 
 
 (function ($) {
-	$.pace = function (key, func, pace) {
-		var newpace = new Date().getTime() + pace;
-		var key = {
-			key: key,
-			func: func,
-			runat: newpace,
-			complete: false
-		};
-		var haspace = false;
-		for (var i = 0; i < $.pacekeys.length; i++) {
-			key = $.pacekeys[i];
-			if (key == key) {
-				if (newpace > key.runat) {
-					key.runat = newpace;
-					key.complete = false;
-				}
-				haspace = true;
-				break;
-			}
-		}
-		if (!haspace) $.pacekeys.push({
-			key: key,
-			func: func,
-			runat: newpace,
-			complete: false
-		});
-	};
-	var paceloop = function () {
-		if ($.pacekeys == null) $.pacekeys = [];
-		setTimeout(function () {
-			try {
-				for (var i = 0; i < $.pacekeys.length; i++) {
-					var pace = $.pacekeys[i];
-					if (pace.complete == false) {
-						if (pace.runat < new Date().getTime()) {
+    $.pace_keys = [];
+    $.pace = function (pushkey, func, pace) {
+        var newpace = new Date().getTime() + pace;
 
-							pace.func();
-							pace.complete = true;
-						}
-					}
-				}
-			} catch (ex) { }
-			paceloop();
-		}, 10);
-	}
-	paceloop();	
+        var key = {
+            key: pushkey,
+            func: func,
+            runat: newpace,
+            complete: false
+        };
+        var haspace = false;
+
+        for (var i = 0; i < $.pace_keys.length; i++) {
+            var pkey = $.pace_keys[i];
+            if (pkey.key == pushkey) {
+                console.log('haskey');
+                if (newpace > pkey.runat) {
+                    pkey.runat = newpace;
+                    pkey.complete = false;
+                }
+                haspace = true;
+                break;
+            }
+        }
+        if (!haspace) $.pace_keys.push({
+            key: pushkey,
+            func: func,
+            runat: newpace,
+            complete: false
+        });
+    };
+    var paceloop = function () {
+        setTimeout(function () {
+            try {
+                for (var i = 0; i < $.pace_keys.length; i++) {
+                    var pace = $.pace_keys[i];
+                    if (pace.complete == false) {
+                        if (pace.runat < new Date().getTime()) {
+                            pace.func();
+                            pace.complete = true;
+                        }
+                    }
+                }
+            } catch (ex) { }
+            paceloop();
+        }, 10);
+    }
+    paceloop();
 })(jQuery)
