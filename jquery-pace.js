@@ -43,6 +43,7 @@ By Leo Barsukov
                 if (newpace > pkey.runat) {
                     pkey.runat = newpace;
                     pkey.complete = false;
+                    pkey.func = func;
                 }
                 haspace = true;
                 break;
